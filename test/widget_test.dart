@@ -10,7 +10,7 @@ void main() {
     await initDependencies();
   });
 
-  testWidgets('renders onboarding screen and navigates to login', (
+  testWidgets('renders both onboarding slides and navigates to login', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1170, 2652);
@@ -28,6 +28,14 @@ void main() {
     expect(find.text('Get Started'), findsOneWidget);
 
     await tester.tap(find.text('Get Started'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('One Card.'), findsOneWidget);
+    expect(find.textContaining('365 Days of Freedom.'), findsOneWidget);
+    expect(find.text('Continue'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Continue'));
+    await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
 
     expect(find.text('GLOBALBRIDGE'), findsOneWidget);
