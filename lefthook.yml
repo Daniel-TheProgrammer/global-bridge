@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: false
+  commands:
+    format:
+      run: dart format --set-exit-if-changed lib test
+    analyze:
+      run: flutter analyze
+    unit_tests:
+      run: flutter test --test-randomize-ordering-seed=random
+    security_scan:
+      run: sh tool/security/secret_scan.sh
+
+pre-push:
+  parallel: false
+  commands:
+    tests_with_coverage:
+      run: flutter test --coverage
