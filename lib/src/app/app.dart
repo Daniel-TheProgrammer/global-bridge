@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:globalbridge/src/core/di/injection_container.dart';
 import 'package:globalbridge/src/features/health/presentation/bloc/health_bloc.dart';
 import 'package:globalbridge/src/features/health/presentation/bloc/health_event.dart';
-import 'package:globalbridge/src/features/health/presentation/pages/home_page.dart';
+import 'package:globalbridge/src/features/onboarding/presentation/pages/onboarding_page.dart';
 
 class GlobalBridgeApp extends StatelessWidget {
   const GlobalBridgeApp({super.key});
@@ -23,7 +23,7 @@ class GlobalBridgeApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0057FF)),
           useMaterial3: true,
         ),
-        home: const HomePage(),
+        home: const OnboardingPage(),
       ),
     );
   }
