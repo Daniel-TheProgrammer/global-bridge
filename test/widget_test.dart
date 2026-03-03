@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:globalbridge/src/app/app.dart';
 import 'package:globalbridge/src/core/di/injection_container.dart';
@@ -10,7 +9,7 @@ void main() {
     await initDependencies();
   });
 
-  testWidgets('renders both onboarding slides and navigates to login', (
+  testWidgets('renders all onboarding slides and navigates to login', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1170, 2652);
@@ -36,6 +35,16 @@ void main() {
 
     await tester.ensureVisible(find.text('Continue'));
     await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('First top-up is on us.'), findsOneWidget);
+    expect(find.textContaining('No hidden fees.'), findsOneWidget);
+    expect(find.byKey(const Key('onboarding3_get_started')), findsOneWidget);
+
+    await tester.ensureVisible(
+      find.byKey(const Key('onboarding3_get_started')),
+    );
+    await tester.tap(find.byKey(const Key('onboarding3_get_started')));
     await tester.pumpAndSettle();
 
     expect(find.text('GLOBALBRIDGE'), findsOneWidget);

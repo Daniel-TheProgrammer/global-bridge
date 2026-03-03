@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:globalbridge/src/features/health/presentation/pages/home_page.dart';
 import 'package:globalbridge/src/features/onboarding/presentation/pages/onboarding_slide_one_page.dart';
+import 'package:globalbridge/src/features/onboarding/presentation/pages/onboarding_slide_three_page.dart';
 import 'package:globalbridge/src/features/onboarding/presentation/pages/onboarding_slide_two_page.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -29,6 +30,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
   }
 
+  Future<void> _goToThirdSlide() async {
+    await _pageController.animateToPage(
+      2,
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
   void _goToLogin() {
     unawaited(
       Navigator.of(context).pushReplacement(
@@ -47,7 +56,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
             onNext: () => unawaited(_goToSecondSlide()),
             onSkip: _goToLogin,
           ),
-          OnboardingSlideTwoPage(onContinue: _goToLogin, onSkip: _goToLogin),
+          OnboardingSlideTwoPage(
+            onContinue: () => unawaited(_goToThirdSlide()),
+            onSkip: _goToLogin,
+          ),
+          OnboardingSlideThreePage(
+            onGetStarted: _goToLogin,
+            onSkip: _goToLogin,
+          ),
         ],
       ),
     );
