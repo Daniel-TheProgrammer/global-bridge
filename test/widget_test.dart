@@ -49,5 +49,36 @@ void main() {
 
     expect(find.text('GLOBALBRIDGE'), findsOneWidget);
     expect(find.text('LOGIN'), findsOneWidget);
+
+    await tester.ensureVisible(find.byKey(const Key('go_to_create_account')));
+    await tester.tap(find.byKey(const Key('go_to_create_account')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Create Account'), findsOneWidget);
+    expect(find.byKey(const Key('create_account_submit')), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const Key('create_full_name')),
+      'Marcus Goldman',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_email')),
+      'marcus@globalbridge.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_password')),
+      'SecurePass1',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_confirm_password')),
+      'SecurePass1',
+    );
+    await tester.tap(find.byKey(const Key('create_accept_terms')));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('create_account_submit')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Email Verification'), findsOneWidget);
+    expect(find.byKey(const Key('otp_verify')), findsOneWidget);
   });
 }
