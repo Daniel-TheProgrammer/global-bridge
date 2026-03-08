@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:globalbridge/src/features/auth/presentation/pages/email_otp_verification_page.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/terms_of_service_page.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -29,6 +30,17 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _openTerms() async {
+    final accepted = await Navigator.of(context).push<bool>(
+      MaterialPageRoute<bool>(
+        builder: (_) => const TermsOfServicePage(),
+      ),
+    );
+    if (accepted ?? false) {
+      setState(() => _agreedToTerms = true);
+    }
   }
 
   void _onCreateAccount() {
@@ -246,6 +258,27 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                               ),
                             ),
                           ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          key: const Key('read_terms'),
+                          onPressed: () => unawaited(_openTerms()),
+                          style: TextButton.styleFrom(
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            foregroundColor: const Color(0xCC00E5FF),
+                          ),
+                          child: const Text(
+                            'Read terms & privacy',
+                            style: TextStyle(
+                              color: Color(0xCC00E5FF),
+                              fontSize: 11,
+                              letterSpacing: 0.2,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 28),

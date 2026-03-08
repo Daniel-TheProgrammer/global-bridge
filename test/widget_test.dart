@@ -57,6 +57,13 @@ void main() {
     expect(find.text('Create Account'), findsOneWidget);
     expect(find.byKey(const Key('create_account_submit')), findsOneWidget);
 
+    await tester.tap(find.byKey(const Key('read_terms')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Terms of Service'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('terms_accept')));
+    await tester.pumpAndSettle();
+
     await tester.enterText(
       find.byKey(const Key('create_full_name')),
       'Marcus Goldman',
@@ -73,8 +80,6 @@ void main() {
       find.byKey(const Key('create_confirm_password')),
       'SecurePass1',
     );
-    await tester.tap(find.byKey(const Key('create_accept_terms')));
-    await tester.pump();
     await tester.tap(find.byKey(const Key('create_account_submit')));
     await tester.pumpAndSettle();
 
