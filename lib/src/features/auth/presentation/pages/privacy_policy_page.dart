@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:globalbridge/src/features/auth/presentation/pages/privacy_policy_page.dart';
 
-class TermsOfServicePage extends StatelessWidget {
-  const TermsOfServicePage({super.key});
+class PrivacyPolicyPage extends StatelessWidget {
+  const PrivacyPolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +26,7 @@ class TermsOfServicePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
+                      key: const Key('privacy_back'),
                       onPressed: () => Navigator.of(context).pop(false),
                       icon: const Icon(
                         Icons.arrow_back,
@@ -35,7 +35,7 @@ class TermsOfServicePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Terms of Service',
+                      'Privacy Policy',
                       style: TextStyle(
                         color: Color(0xFFF1F5F9),
                         fontSize: 30,
@@ -55,41 +55,13 @@ class TermsOfServicePage extends StatelessWidget {
                         separatorBuilder: (_, _) => const SizedBox(height: 14),
                         itemBuilder: (context, index) {
                           final section = _sections[index];
-                          return _TermsSectionCard(section: section);
+                          return _PrivacySectionCard(section: section);
                         },
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        key: const Key('view_privacy_policy'),
-                        onPressed: () async {
-                          await Navigator.of(context).push<void>(
-                            MaterialPageRoute<void>(
-                              builder: (_) => const PrivacyPolicyPage(),
-                            ),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          foregroundColor: const Color(0xCC00E5FF),
-                        ),
-                        child: const Text(
-                          'View privacy policy',
-                          style: TextStyle(
-                            color: Color(0xCC00E5FF),
-                            fontSize: 11,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
                     InkWell(
-                      key: const Key('terms_accept'),
+                      key: const Key('privacy_accept'),
                       onTap: () => Navigator.of(context).pop(true),
                       child: Container(
                         height: 56,
@@ -100,12 +72,12 @@ class TermsOfServicePage extends StatelessWidget {
                           border: Border.all(color: const Color(0x4D00E1FF)),
                         ),
                         child: const Text(
-                          'ACCEPT TERMS',
+                          'ACCEPT PRIVACY POLICY',
                           style: TextStyle(
                             color: Color(0xFF00E5FF),
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            letterSpacing: 1.8,
+                            letterSpacing: 1.5,
                           ),
                         ),
                       ),
@@ -122,10 +94,10 @@ class TermsOfServicePage extends StatelessWidget {
   }
 }
 
-class _TermsSectionCard extends StatelessWidget {
-  const _TermsSectionCard({required this.section});
+class _PrivacySectionCard extends StatelessWidget {
+  const _PrivacySectionCard({required this.section});
 
-  final _TermsSection section;
+  final _PrivacySection section;
 
   @override
   Widget build(BuildContext context) {
@@ -162,38 +134,37 @@ class _TermsSectionCard extends StatelessWidget {
   }
 }
 
-class _TermsSection {
-  const _TermsSection(this.title, this.body);
+class _PrivacySection {
+  const _PrivacySection(this.title, this.body);
 
   final String title;
   final String body;
 }
 
-const List<_TermsSection> _sections = <_TermsSection>[
-  _TermsSection(
-    '1. Account Security',
-    'You are responsible for keeping your credentials and verification codes '
-        'confidential. Do not share OTP codes, passwords, or session tokens.',
+const List<_PrivacySection> _sections = <_PrivacySection>[
+  _PrivacySection(
+    '1. Data We Collect',
+    'We collect account details, contact data, and transaction metadata needed '
+        'to provide secure payment and account services.',
   ),
-  _TermsSection(
-    '2. Eligibility & Compliance',
-    'You confirm that your information is accurate and lawful. GlobalBridge '
-        'may request additional verification for fraud and compliance '
-        'controls.',
+  _PrivacySection(
+    '2. How We Use Data',
+    'Your data is used for identity verification, fraud prevention, service '
+        'delivery, support, and legal compliance.',
   ),
-  _TermsSection(
-    '3. Acceptable Use',
-    'You agree not to use the platform for prohibited, fraudulent, or illegal '
-        'transactions. Violations may result in account suspension.',
+  _PrivacySection(
+    '3. Security Controls',
+    'We apply layered safeguards including encrypted transport, strict access '
+        'controls, audit logging, and routine monitoring.',
   ),
-  _TermsSection(
-    '4. Privacy & Data Protection',
-    'We process data according to our Privacy Policy and apply security '
-        'controls including encrypted transport and access restrictions.',
+  _PrivacySection(
+    '4. Data Sharing',
+    'We share data only when required to operate services, satisfy legal '
+        'obligations, or with trusted processors under confidentiality terms.',
   ),
-  _TermsSection(
-    '5. Service Availability',
-    'We aim for reliable service but cannot guarantee uninterrupted access. '
-        'Maintenance, outages, or third-party dependencies may affect uptime.',
+  _PrivacySection(
+    '5. Your Rights',
+    'You may request access, correction, or deletion of personal data where '
+        'permitted by applicable regulations.',
   ),
 ];

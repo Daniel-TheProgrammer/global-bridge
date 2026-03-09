@@ -61,6 +61,14 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Terms of Service'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('view_privacy_policy')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Privacy Policy'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('privacy_back')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Terms of Service'), findsOneWidget);
     await tester.tap(find.byKey(const Key('terms_accept')));
     await tester.pumpAndSettle();
 
