@@ -49,6 +49,7 @@ void main() {
 
     expect(find.text('GLOBALBRIDGE'), findsOneWidget);
     expect(find.text('LOGIN'), findsOneWidget);
+    expect(find.byKey(const Key('go_to_reset_password')), findsOneWidget);
 
     await tester.ensureVisible(find.byKey(const Key('go_to_create_account')));
     await tester.tap(find.byKey(const Key('go_to_create_account')));
@@ -93,5 +94,51 @@ void main() {
 
     expect(find.text('Email Verification'), findsOneWidget);
     expect(find.byKey(const Key('otp_verify')), findsOneWidget);
+  });
+
+  testWidgets('navigates to reset password from login', (tester) async {
+    tester.view.physicalSize = const Size(1170, 2652);
+    tester.view.devicePixelRatio = 3.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const GlobalBridgeApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    await tester.tap(find.text('Get Started'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Continue'));
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.byKey(const Key('onboarding3_get_started')),
+    );
+    await tester.tap(find.byKey(const Key('onboarding3_get_started')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('go_to_reset_password')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Reset Password'), findsOneWidget);
+    expect(find.byKey(const Key('reset_password_submit')), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const Key('reset_email')),
+      'marcus@globalbridge.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('reset_new_password')),
+      'SecurePass1',
+    );
+    await tester.enterText(
+      find.byKey(const Key('reset_confirm_password')),
+      'SecurePass1',
+    );
+
+    await tester.tap(find.byKey(const Key('reset_password_submit')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('LOGIN'), findsOneWidget);
   });
 }
