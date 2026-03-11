@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:globalbridge/src/features/auth/presentation/pages/email_otp_verification_page.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/privacy_policy_page.dart';
 import 'package:globalbridge/src/features/auth/presentation/pages/terms_of_service_page.dart';
 
 class CreateAccountPage extends StatefulWidget {
@@ -13,22 +14,18 @@ class CreateAccountPage extends StatefulWidget {
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _referralController = TextEditingController();
 
   bool _agreedToTerms = false;
   bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
-    _fullNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _referralController.dispose();
     super.dispose();
   }
 
@@ -41,6 +38,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     if (accepted ?? false) {
       setState(() => _agreedToTerms = true);
     }
+  }
+
+  Future<void> _openPrivacy() async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (_) => const PrivacyPolicyPage(),
+      ),
+    );
   }
 
   void _onCreateAccount() {
@@ -71,10 +76,16 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: RadialGradient(
-            radius: 0.85,
-            colors: [Color(0xFF1A1A1D), Color(0xFF0F0F11)],
+            center: const Alignment(0, -0.45),
+            radius: 1.05,
+            colors: [
+              const Color(0xFF0E2B38).withValues(alpha: 0.95),
+              const Color(0xFF04121B),
+              const Color(0xFF030B12),
+            ],
+            stops: const [0.0, 0.62, 1.0],
           ),
         ),
         child: SafeArea(
@@ -82,61 +93,70 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 390),
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 16,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 12),
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Color(0xFFE7ECF3),
+                      Row(
+                        children: [
+                          IconButton(
+                            key: const Key('create_back'),
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Color(0xFFE7ECF3),
+                            ),
+                          ),
+                          const Expanded(
+                            child: Center(
+                              child: Text(
+                                'Create Account',
+                                style: TextStyle(
+                                  color: Color(0xFFE7ECF3),
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 48),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Center(
+                        child: Icon(
+                          Icons.blur_on_rounded,
+                          size: 148,
+                          color: const Color(0xFF00E5FF).withValues(alpha: 0.56),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 10),
                       const Text(
-                        'Create Account',
+                        'Join GlobalBridge',
                         style: TextStyle(
-                          color: Color(0xFFF1F5F9),
-                          fontSize: 30,
+                          color: Color(0xFFE7ECF3),
+                          fontSize: 39,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.6,
                         ),
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        'Get started with your GlobalBridge profile.',
+                        'Start generating premium 1-year virtual cards today.',
                         style: TextStyle(
-                          color: Color(0xFF94A3B8),
+                          color: Color(0xFF8498AD),
                           fontSize: 14,
+                          height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 28),
-                      _fieldLabel('FULL NAME'),
-                      _textField(
-                        fieldKey: const Key('create_full_name'),
-                        controller: _fullNameController,
-                        hint: 'Marcus Goldman',
-                        textInputAction: TextInputAction.next,
-                        validator: (value) {
-                          if ((value ?? '').trim().isEmpty) {
-                            return 'Full name is required';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 18),
-                      _fieldLabel('EMAIL ADDRESS'),
+                      const SizedBox(height: 22),
+                      _fieldLabel('Email Address'),
                       _textField(
                         fieldKey: const Key('create_email'),
                         controller: _emailController,
-                        hint: 'name@globalbridge.com',
+                        hint: 'name@example.com',
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         validator: (value) {
@@ -154,11 +174,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         },
                       ),
                       const SizedBox(height: 18),
-                      _fieldLabel('PASSWORD'),
+                      _fieldLabel('Password'),
                       _textField(
                         fieldKey: const Key('create_password'),
                         controller: _passwordController,
-                        hint: '••••••••••••',
+                        hint: '*******',
                         obscureText: _obscurePassword,
                         textInputAction: TextInputAction.next,
                         suffix: IconButton(
@@ -171,7 +191,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             _obscurePassword
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: const Color(0x66FFFFFF),
+                            color: const Color(0x668FA3BA),
                             size: 18,
                           ),
                         ),
@@ -189,99 +209,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         },
                       ),
                       const SizedBox(height: 18),
-                      _fieldLabel('CONFIRM PASSWORD'),
+                      _fieldLabel('Referral Code (Optional)'),
                       _textField(
-                        fieldKey: const Key('create_confirm_password'),
-                        controller: _confirmPasswordController,
-                        hint: '••••••••••••',
-                        obscureText: _obscureConfirmPassword,
+                        fieldKey: const Key('create_referral_code'),
+                        controller: _referralController,
+                        hint: 'Enter code',
                         textInputAction: TextInputAction.done,
-                        suffix: IconButton(
-                          onPressed: () {
-                            setState(
-                              () => _obscureConfirmPassword =
-                                  !_obscureConfirmPassword,
-                            );
-                          },
-                          icon: Icon(
-                            _obscureConfirmPassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: const Color(0x66FFFFFF),
-                            size: 18,
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value != _passwordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
-                        },
+                        validator: (_) => null,
                       ),
-                      const SizedBox(height: 20),
-                      InkWell(
-                        key: const Key('create_accept_terms'),
-                        onTap: () {
-                          setState(() => _agreedToTerms = !_agreedToTerms);
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 16,
-                              height: 16,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: const Color(0x33FFFFFF),
-                                ),
-                                borderRadius: BorderRadius.circular(2),
-                                color: _agreedToTerms
-                                    ? const Color(0xFF00E5FF)
-                                    : Colors.transparent,
-                              ),
-                              child: _agreedToTerms
-                                  ? const Icon(
-                                      Icons.check,
-                                      size: 12,
-                                      color: Colors.black,
-                                    )
-                                  : null,
-                            ),
-                            const SizedBox(width: 12),
-                            const Expanded(
-                              child: Text(
-                                'I agree to the Terms and Privacy Policy',
-                                style: TextStyle(
-                                  color: Color(0x99FFFFFF),
-                                  fontSize: 11,
-                                  height: 1.5,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          key: const Key('read_terms'),
-                          onPressed: () => unawaited(_openTerms()),
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            foregroundColor: const Color(0xCC00E5FF),
-                          ),
-                          child: const Text(
-                            'Read terms & privacy',
-                            style: TextStyle(
-                              color: Color(0xCC00E5FF),
-                              fontSize: 11,
-                              letterSpacing: 0.2,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 24),
                       InkWell(
                         key: const Key('create_account_submit'),
                         onTap: _onCreateAccount,
@@ -290,20 +226,151 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           width: double.infinity,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF080808),
-                            border: Border.all(color: const Color(0x4D00E1FF)),
+                            color: const Color(0xFF24CFE3),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                           child: const Text(
-                            'CREATE ACCOUNT',
+                            'Create Account',
                             style: TextStyle(
-                              color: Color(0xFF00E5FF),
-                              fontSize: 12,
+                              color: Color(0xFF03212B),
+                              fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              letterSpacing: 2,
                             ),
                           ),
                         ),
                       ),
+                      const SizedBox(height: 16),
+                      Center(
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            const Text(
+                              'By signing up, you agree to our ',
+                              style: TextStyle(
+                                color: Color(0xFF7D8FA6),
+                                fontSize: 12,
+                              ),
+                            ),
+                            TextButton(
+                              key: const Key('read_terms'),
+                              onPressed: () => unawaited(_openTerms()),
+                              style: TextButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: const Text(
+                                'Terms of Service',
+                                style: TextStyle(
+                                  color: Color(0xFF24CFE3),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            const Text(
+                              ' and ',
+                              style: TextStyle(
+                                color: Color(0xFF7D8FA6),
+                                fontSize: 12,
+                              ),
+                            ),
+                            TextButton(
+                              key: const Key('read_privacy'),
+                              onPressed: () => unawaited(_openPrivacy()),
+                              style: TextButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: const Text(
+                                'Privacy Policy',
+                                style: TextStyle(
+                                  color: Color(0xFF24CFE3),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Already have an account? ',
+                            style: TextStyle(
+                              color: Color(0xFF95A6BA),
+                              fontSize: 14,
+                            ),
+                          ),
+                          TextButton(
+                            key: const Key('create_sign_in'),
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: TextButton.styleFrom(
+                              minimumSize: Size.zero,
+                              padding: EdgeInsets.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: const Text(
+                              'Sign In',
+                              style: TextStyle(
+                                color: Color(0xFF24CFE3),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      const Row(
+                        children: [
+                          Expanded(child: Divider(color: Color(0x1A8FA3BA))),
+                          SizedBox(width: 10),
+                          Text(
+                            'OR CONTINUE WITH',
+                            style: TextStyle(
+                              color: Color(0x667D8FA6),
+                              fontSize: 11,
+                              letterSpacing: 1.1,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(child: Divider(color: Color(0x1A8FA3BA))),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        height: 48,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xAA040C13),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(color: const Color(0x1F8FA3BA)),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.send_rounded,
+                              size: 17,
+                              color: Color(0xFF24CFE3),
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              'Login with Telegram',
+                              style: TextStyle(
+                                color: Color(0xFFE7ECF3),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 18),
                     ],
                   ),
                 ),
@@ -317,14 +384,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   Widget _fieldLabel(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Text(
         text,
         style: const TextStyle(
-          color: Color(0x66FFFFFF),
-          fontSize: 10,
+          color: Color(0xFFC8D2DE),
+          fontSize: 15,
           fontWeight: FontWeight.w500,
-          letterSpacing: 1,
         ),
       ),
     );
@@ -348,30 +414,41 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       textInputAction: textInputAction,
       obscureText: obscureText,
       style: const TextStyle(
-        color: Color(0xB3FFFFFF),
+        color: Color(0xFFE7ECF3),
         fontSize: 16,
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w400,
       ),
-      cursorColor: const Color(0xFF00E5FF),
+      cursorColor: const Color(0xFF24CFE3),
       decoration: InputDecoration(
         hintText: hint,
+        filled: true,
+        fillColor: const Color(0x191A7182),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: const TextStyle(
-          color: Color(0x33FFFFFF),
+          color: Color(0x667D8FA6),
           fontSize: 16,
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w400,
         ),
         errorStyle: const TextStyle(color: Color(0xFFFF9B9B), fontSize: 11),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0x1AFFFFFF)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: BorderSide.none,
         ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0x9900E5FF)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: const BorderSide(color: Color(0x268FA3BA)),
         ),
-        errorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0x99FF6B6B)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: const BorderSide(color: Color(0x9924CFE3)),
         ),
-        focusedErrorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0x99FF6B6B)),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: const BorderSide(color: Color(0x99FF6B6B)),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: const BorderSide(color: Color(0x99FF6B6B)),
         ),
         suffixIcon: suffix,
       ),

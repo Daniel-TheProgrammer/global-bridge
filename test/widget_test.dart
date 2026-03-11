@@ -74,10 +74,6 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.enterText(
-      find.byKey(const Key('create_full_name')),
-      'Marcus Goldman',
-    );
-    await tester.enterText(
       find.byKey(const Key('create_email')),
       'marcus@globalbridge.com',
     );
@@ -86,14 +82,35 @@ void main() {
       'SecurePass1',
     );
     await tester.enterText(
-      find.byKey(const Key('create_confirm_password')),
-      'SecurePass1',
+      find.byKey(const Key('create_referral_code')),
+      'INVITE2026',
     );
     await tester.tap(find.byKey(const Key('create_account_submit')));
     await tester.pumpAndSettle();
 
     expect(find.text('Email Verification'), findsOneWidget);
     expect(find.byKey(const Key('otp_verify')), findsOneWidget);
+
+    await tester.enterText(find.byKey(const Key('otp_cell_0')), '1');
+    await tester.enterText(find.byKey(const Key('otp_cell_1')), '2');
+    await tester.enterText(find.byKey(const Key('otp_cell_2')), '3');
+    await tester.enterText(find.byKey(const Key('otp_cell_3')), '4');
+    await tester.enterText(find.byKey(const Key('otp_cell_4')), '5');
+    await tester.enterText(find.byKey(const Key('otp_cell_5')), '6');
+    await tester.tap(find.byKey(const Key('otp_verify')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Verify Your Identity'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('kyc_id_type_school')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Identity Verification'), findsOneWidget);
+    expect(find.byKey(const Key('school_id_upload_gallery')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('school_id_upload_gallery')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Card Activation'), findsOneWidget);
+    expect(find.byKey(const Key('card_activation_ready')), findsOneWidget);
   });
 
   testWidgets('navigates to reset password from login', (tester) async {
@@ -140,5 +157,66 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('LOGIN'), findsOneWidget);
+  });
+
+  testWidgets('opens school id screen from kyc verification', (tester) async {
+    tester.view.physicalSize = const Size(1170, 2652);
+    tester.view.devicePixelRatio = 3.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const GlobalBridgeApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    await tester.tap(find.text('Get Started'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Continue'));
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.byKey(const Key('onboarding3_get_started')),
+    );
+    await tester.tap(find.byKey(const Key('onboarding3_get_started')));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.byKey(const Key('go_to_create_account')));
+    await tester.tap(find.byKey(const Key('go_to_create_account')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('read_terms')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('terms_accept')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('create_email')),
+      'marcus@globalbridge.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_password')),
+      'SecurePass1',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_referral_code')),
+      'INVITE2026',
+    );
+    await tester.tap(find.byKey(const Key('create_account_submit')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byKey(const Key('otp_cell_0')), '1');
+    await tester.enterText(find.byKey(const Key('otp_cell_1')), '2');
+    await tester.enterText(find.byKey(const Key('otp_cell_2')), '3');
+    await tester.enterText(find.byKey(const Key('otp_cell_3')), '4');
+    await tester.enterText(find.byKey(const Key('otp_cell_4')), '5');
+    await tester.enterText(find.byKey(const Key('otp_cell_5')), '6');
+    await tester.tap(find.byKey(const Key('otp_verify')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Verify Your Identity'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('kyc_id_type_school')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Identity Verification'), findsOneWidget);
+    expect(find.byKey(const Key('school_id_upload_gallery')), findsOneWidget);
   });
 }

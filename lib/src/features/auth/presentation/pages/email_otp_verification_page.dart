@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/kyc_verification_page.dart';
 
 class EmailOtpVerificationPage extends StatefulWidget {
   const EmailOtpVerificationPage({required this.email, super.key});
@@ -45,9 +46,6 @@ class _EmailOtpVerificationPageState extends State<EmailOtpVerificationPage> {
   bool get _isOtpComplete =>
       _controllers.every((controller) => controller.text.trim().isNotEmpty);
 
-  String get _otpValue =>
-      _controllers.map((controller) => controller.text).join();
-
   void _startCooldown() {
     _timer?.cancel();
     setState(() => _secondsRemaining = _resendCooldown);
@@ -90,8 +88,12 @@ class _EmailOtpVerificationPageState extends State<EmailOtpVerificationPage> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('OTP verified: $_otpValue')),
+    unawaited(
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (_) => KycVerificationPage(email: widget.email),
+        ),
+      ),
     );
   }
 
