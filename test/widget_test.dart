@@ -55,7 +55,7 @@ void main() {
     await tester.tap(find.byKey(const Key('go_to_create_account')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Create Account'), findsOneWidget);
+    expect(find.text('Join GlobalBridge'), findsOneWidget);
     expect(find.byKey(const Key('create_account_submit')), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('read_terms')));
@@ -88,18 +88,6 @@ void main() {
     await tester.tap(find.byKey(const Key('create_account_submit')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Email Verification'), findsOneWidget);
-    expect(find.byKey(const Key('otp_verify')), findsOneWidget);
-
-    await tester.enterText(find.byKey(const Key('otp_cell_0')), '1');
-    await tester.enterText(find.byKey(const Key('otp_cell_1')), '2');
-    await tester.enterText(find.byKey(const Key('otp_cell_2')), '3');
-    await tester.enterText(find.byKey(const Key('otp_cell_3')), '4');
-    await tester.enterText(find.byKey(const Key('otp_cell_4')), '5');
-    await tester.enterText(find.byKey(const Key('otp_cell_5')), '6');
-    await tester.tap(find.byKey(const Key('otp_verify')));
-    await tester.pumpAndSettle();
-
     expect(find.text('Verify Your Identity'), findsOneWidget);
     await tester.tap(find.byKey(const Key('kyc_id_type_school')));
     await tester.pumpAndSettle();
@@ -107,6 +95,11 @@ void main() {
     expect(find.text('Identity Verification'), findsOneWidget);
     expect(find.byKey(const Key('school_id_upload_gallery')), findsOneWidget);
     await tester.tap(find.byKey(const Key('school_id_upload_gallery')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('KYC PHASE 2'), findsOneWidget);
+    expect(find.byKey(const Key('face_verification_complete')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('face_verification_complete')));
     await tester.pumpAndSettle();
 
     expect(find.text('Card Activation'), findsOneWidget);
@@ -203,20 +196,15 @@ void main() {
     await tester.tap(find.byKey(const Key('create_account_submit')));
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.byKey(const Key('otp_cell_0')), '1');
-    await tester.enterText(find.byKey(const Key('otp_cell_1')), '2');
-    await tester.enterText(find.byKey(const Key('otp_cell_2')), '3');
-    await tester.enterText(find.byKey(const Key('otp_cell_3')), '4');
-    await tester.enterText(find.byKey(const Key('otp_cell_4')), '5');
-    await tester.enterText(find.byKey(const Key('otp_cell_5')), '6');
-    await tester.tap(find.byKey(const Key('otp_verify')));
-    await tester.pumpAndSettle();
-
     expect(find.text('Verify Your Identity'), findsOneWidget);
     await tester.tap(find.byKey(const Key('kyc_id_type_school')));
     await tester.pumpAndSettle();
 
     expect(find.text('Identity Verification'), findsOneWidget);
     expect(find.byKey(const Key('school_id_upload_gallery')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('school_id_upload_gallery')));
+    await tester.pumpAndSettle();
+    expect(find.text('KYC PHASE 2'), findsOneWidget);
+    expect(find.byKey(const Key('face_verification_complete')), findsOneWidget);
   });
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:globalbridge/src/features/auth/presentation/pages/email_otp_verification_page.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/kyc_verification_page.dart';
 import 'package:globalbridge/src/features/auth/presentation/pages/privacy_policy_page.dart';
 import 'package:globalbridge/src/features/auth/presentation/pages/terms_of_service_page.dart';
 
@@ -64,7 +64,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     unawaited(
       Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (_) => EmailOtpVerificationPage(
+          builder: (_) => KycVerificationPage(
             email: _emailController.text.trim(),
           ),
         ),
@@ -93,7 +93,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 390),
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -129,7 +132,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         child: Icon(
                           Icons.blur_on_rounded,
                           size: 148,
-                          color: const Color(0xFF00E5FF).withValues(alpha: 0.56),
+                          color: const Color(
+                            0xFF00E5FF,
+                          ).withValues(alpha: 0.56),
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -295,8 +300,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           const Text(
                             'Already have an account? ',
@@ -423,7 +429,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         hintText: hint,
         filled: true,
         fillColor: const Color(0x191A7182),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         hintStyle: const TextStyle(
           color: Color(0x667D8FA6),
           fontSize: 16,

@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:globalbridge/src/features/auth/presentation/pages/card_activation_page.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/face_verification_page.dart';
 
 class SchoolIdVerificationPage extends StatelessWidget {
   const SchoolIdVerificationPage({super.key});
 
-  void _goToCardActivation(BuildContext context) {
+  void _goToFaceVerification(BuildContext context) {
     unawaited(
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
-          builder: (_) => const CardActivationPage(),
+          builder: (_) => const FaceVerificationPage(),
         ),
       ),
     );
@@ -96,11 +96,11 @@ class SchoolIdVerificationPage extends StatelessWidget {
                     const SizedBox(height: 22),
                     _documentFrame(),
                     const Spacer(),
-                    _captureButton(),
+                    _captureButton(context),
                     const SizedBox(height: 22),
                     InkWell(
                       key: const Key('school_id_upload_gallery'),
-                      onTap: () => _goToCardActivation(context),
+                      onTap: () => _goToFaceVerification(context),
                       borderRadius: BorderRadius.circular(28),
                       child: Container(
                         width: double.infinity,
@@ -239,22 +239,26 @@ class SchoolIdVerificationPage extends StatelessWidget {
     );
   }
 
-  Widget _captureButton() {
-    return Container(
+  Widget _captureButton(BuildContext context) {
+    return InkWell(
       key: const Key('school_id_capture'),
-      width: 88,
-      height: 88,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: const Color(0x66FFFFFF), width: 2),
-      ),
-      child: Center(
-        child: Container(
-          width: 66,
-          height: 66,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xFFF2F4F8),
+      onTap: () => _goToFaceVerification(context),
+      borderRadius: BorderRadius.circular(44),
+      child: Container(
+        width: 88,
+        height: 88,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: const Color(0x66FFFFFF), width: 2),
+        ),
+        child: Center(
+          child: Container(
+            width: 66,
+            height: 66,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xFFF2F4F8),
+            ),
           ),
         ),
       ),
