@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/create_account_page.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/reset_password_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -168,13 +172,22 @@ class _HomePageState extends State<HomePage> {
             ),
             const Spacer(),
             TextButton(
+              key: const Key('go_to_reset_password'),
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
                 padding: EdgeInsets.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 foregroundColor: const Color(0xCC00E5FF),
               ),
-              onPressed: () {},
+              onPressed: () {
+                unawaited(
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const ResetPasswordPage(),
+                    ),
+                  ),
+                );
+              },
               child: const Text(
                 'Forgot Password?',
                 style: TextStyle(
@@ -364,20 +377,38 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildSignup() {
     return Center(
-      child: RichText(
-        text: const TextSpan(
-          children: [
-            TextSpan(
-              text: 'New to GlobalBridge? ',
-              style: TextStyle(
-                color: Color(0x4DFFFFFF),
-                fontSize: 11,
-                letterSpacing: 0.275,
-                height: 1.5,
-              ),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          const Text(
+            'New to GlobalBridge? ',
+            style: TextStyle(
+              color: Color(0x4DFFFFFF),
+              fontSize: 11,
+              letterSpacing: 0.275,
+              height: 1.5,
             ),
-            TextSpan(
-              text: 'Create an account',
+          ),
+          TextButton(
+            key: const Key('go_to_create_account'),
+            onPressed: () {
+              unawaited(
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const CreateAccountPage(),
+                  ),
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              foregroundColor: const Color(0x99FFFFFF),
+            ),
+            child: const Text(
+              'Create an account',
               style: TextStyle(
                 color: Color(0x99FFFFFF),
                 fontSize: 11,
@@ -385,8 +416,8 @@ class _HomePageState extends State<HomePage> {
                 height: 1.5,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
