@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:globalbridge/src/features/auth/presentation/pages/card_activation_page.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/verification_review_page.dart';
 
 class FaceVerificationPage extends StatelessWidget {
   const FaceVerificationPage({super.key});
@@ -10,7 +10,7 @@ class FaceVerificationPage extends StatelessWidget {
     unawaited(
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
-          builder: (_) => const CardActivationPage(),
+          builder: (_) => const VerificationReviewPage(),
         ),
       ),
     );
