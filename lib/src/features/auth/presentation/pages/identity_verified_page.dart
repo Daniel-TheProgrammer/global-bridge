@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:globalbridge/src/features/auth/presentation/pages/card_activation_page.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/dashboard_home_page.dart';
 
 class IdentityVerifiedPage extends StatelessWidget {
   const IdentityVerifiedPage({super.key});
@@ -10,7 +10,7 @@ class IdentityVerifiedPage extends StatelessWidget {
     unawaited(
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
-          builder: (_) => const CardActivationPage(),
+          builder: (_) => const DashboardHomePage(),
         ),
       ),
     );

@@ -112,8 +112,8 @@ void main() {
     await tester.tap(find.byKey(const Key('identity_verified_proceed')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Card Activation'), findsOneWidget);
-    expect(find.byKey(const Key('card_activation_ready')), findsOneWidget);
+    expect(find.text('WELCOME BACK,'), findsOneWidget);
+    expect(find.byKey(const Key('dashboard_bottom_nav')), findsOneWidget);
   });
 
   testWidgets('navigates to reset password from login', (tester) async {
