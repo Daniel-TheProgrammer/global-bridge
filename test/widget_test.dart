@@ -102,6 +102,11 @@ void main() {
     await tester.tap(find.byKey(const Key('face_verification_complete')));
     await tester.pumpAndSettle();
 
+    expect(find.byKey(const Key('verification_review_title')), findsOneWidget);
+    expect(find.byKey(const Key('verification_review_notify')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('verification_review_notify')));
+    await tester.pumpAndSettle();
+
     expect(find.text('Card Activation'), findsOneWidget);
     expect(find.byKey(const Key('card_activation_ready')), findsOneWidget);
   });
@@ -206,5 +211,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('KYC PHASE 2'), findsOneWidget);
     expect(find.byKey(const Key('face_verification_complete')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('face_verification_complete')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('verification_review_title')), findsOneWidget);
   });
 }
