@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:globalbridge/src/features/auth/presentation/pages/card_activation_page.dart';
+import 'package:globalbridge/src/features/auth/presentation/pages/identity_verified_page.dart';
 
 class VerificationReviewPage extends StatelessWidget {
   const VerificationReviewPage({super.key});
 
-  void _goToCardActivation(BuildContext context) {
+  void _goToIdentityVerified(BuildContext context) {
     unawaited(
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
-          builder: (_) => const CardActivationPage(),
+          builder: (_) => const IdentityVerifiedPage(),
         ),
       ),
     );
@@ -182,7 +182,7 @@ class VerificationReviewPage extends StatelessWidget {
                     const Spacer(),
                     InkWell(
                       key: const Key('verification_review_notify'),
-                      onTap: () => _goToCardActivation(context),
+                      onTap: () => _goToIdentityVerified(context),
                       borderRadius: BorderRadius.circular(22),
                       child: Container(
                         height: 56,
