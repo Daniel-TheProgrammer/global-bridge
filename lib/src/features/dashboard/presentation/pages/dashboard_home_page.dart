@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/security_vault_page.dart';
 
 class DashboardHomePage extends StatelessWidget {
   const DashboardHomePage({super.key});
+
+  void _openSecurityVault(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const SecurityVaultPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -261,8 +268,13 @@ class DashboardHomePage extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: _actionButton(
+                                        key: const Key(
+                                          'dashboard_reveal_action',
+                                        ),
                                         icon: Icons.remove_red_eye_outlined,
                                         label: 'Reveal',
+                                        onTap: () =>
+                                            _openSecurityVault(context),
                                       ),
                                     ),
                                     const SizedBox(width: 10),
@@ -361,28 +373,38 @@ class DashboardHomePage extends StatelessWidget {
     );
   }
 
-  Widget _actionButton({required IconData icon, required String label}) {
-    return Container(
-      height: 44,
-      decoration: BoxDecoration(
-        color: const Color(0xFF1A283C),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0x2B8FA3BA)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: const Color(0xFFC9D6E3), size: 18),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(
-              color: Color(0xFFD5DFEA),
-              fontSize: 22 * 0.63,
-              fontWeight: FontWeight.w600,
+  Widget _actionButton({
+    required IconData icon,
+    required String label,
+    VoidCallback? onTap,
+    Key? key,
+  }) {
+    return InkWell(
+      key: key,
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: 44,
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A283C),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0x2B8FA3BA)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: const Color(0xFFC9D6E3), size: 18),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Color(0xFFD5DFEA),
+                fontSize: 22 * 0.63,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
