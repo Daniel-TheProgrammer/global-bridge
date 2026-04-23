@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/security_vault_page.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/top_up_summary_page.dart';
 
 class DashboardHomePage extends StatelessWidget {
   const DashboardHomePage({super.key});
@@ -7,6 +8,12 @@ class DashboardHomePage extends StatelessWidget {
   void _openSecurityVault(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(builder: (_) => const SecurityVaultPage()),
+    );
+  }
+
+  void _openTopUpSummary(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const TopUpSummaryPage()),
     );
   }
 
@@ -236,31 +243,37 @@ class DashboardHomePage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                                Container(
-                                  height: 52,
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF24CFE3),
-                                    borderRadius: BorderRadius.circular(14),
-                                  ),
-                                  child: const Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.add_circle_outline,
-                                        color: Color(0xFF03212B),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        'Top Up',
-                                        style: TextStyle(
+                                InkWell(
+                                  key: const Key('dashboard_top_up_action'),
+                                  onTap: () => _openTopUpSummary(context),
+                                  borderRadius: BorderRadius.circular(14),
+                                  child: Container(
+                                    height: 52,
+                                    width: double.infinity,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF24CFE3),
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    child: const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.add_circle_outline,
                                           color: Color(0xFF03212B),
-                                          fontSize: 30 * 0.72,
-                                          fontWeight: FontWeight.w700,
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(width: 8),
+                                        Text(
+                                          'Top Up',
+                                          style: TextStyle(
+                                            color: Color(0xFF03212B),
+                                            fontSize: 30 * 0.72,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 12),
