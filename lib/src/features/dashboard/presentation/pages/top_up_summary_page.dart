@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/select_top_up_method_page.dart';
 
 class TopUpSummaryPage extends StatelessWidget {
   const TopUpSummaryPage({super.key});
+
+  void _goToSelectMethod(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const SelectTopUpMethodPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -246,15 +253,7 @@ class TopUpSummaryPage extends StatelessWidget {
                           const SizedBox(height: 18),
                           InkWell(
                             key: const Key('top_up_summary_confirm'),
-                            onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Top-up confirmation submitted successfully.',
-                                  ),
-                                ),
-                              );
-                            },
+                            onTap: () => _goToSelectMethod(context),
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
                               height: 70,
