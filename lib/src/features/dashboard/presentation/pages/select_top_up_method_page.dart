@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/usdt_top_up_terminal_page.dart';
 
 class SelectTopUpMethodPage extends StatelessWidget {
   const SelectTopUpMethodPage({super.key});
+
+  void _openUsdtTerminal(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const UsdtTopUpTerminalPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,12 +115,13 @@ class SelectTopUpMethodPage extends StatelessWidget {
                       subtitle: 'Instant via app transfer',
                     ),
                     const SizedBox(height: 12),
-                    const _PaymentMethodTile(
+                    _PaymentMethodTile(
                       tileKey: Key('top_up_method_usdt'),
                       icon: Icons.currency_bitcoin,
                       title: 'USDT (TRC20)',
                       subtitle: 'Crypto Settlement',
                       badgeText: 'FAST',
+                      onTap: () => _openUsdtTerminal(context),
                     ),
                     const SizedBox(height: 12),
                     const _PaymentMethodTile(
@@ -165,6 +173,7 @@ class _PaymentMethodTile extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.badgeText,
+    this.onTap,
   });
 
   final Key tileKey;
@@ -172,16 +181,19 @@ class _PaymentMethodTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final String? badgeText;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       key: tileKey,
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$title selected')),
-        );
-      },
+      onTap:
+          onTap ??
+          () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('$title selected')),
+            );
+          },
       borderRadius: BorderRadius.circular(18),
       child: Container(
         height: 84,
