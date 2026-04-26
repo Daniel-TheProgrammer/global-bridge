@@ -506,4 +506,143 @@ void main() {
     await tester.pump();
     expect(find.text('Wallet address copied.'), findsOneWidget);
   });
+
+  testWidgets('opens usdt terminal when selecting local bank transfer', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1170, 2652);
+    tester.view.devicePixelRatio = 3.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const GlobalBridgeApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    await tester.tap(find.text('Get Started'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Continue'));
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.byKey(const Key('onboarding3_get_started')),
+    );
+    await tester.tap(find.byKey(const Key('onboarding3_get_started')));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.byKey(const Key('go_to_create_account')));
+    await tester.tap(find.byKey(const Key('go_to_create_account')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('read_terms')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('terms_accept')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('create_email')),
+      'marcus@globalbridge.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_password')),
+      'SecurePass1',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_referral_code')),
+      'INVITE2026',
+    );
+    await tester.tap(find.byKey(const Key('create_account_submit')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('kyc_id_type_school')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('school_id_upload_gallery')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('face_verification_complete')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('verification_review_notify')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('identity_verified_proceed')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('dashboard_top_up_action')));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const Key('top_up_summary_confirm')));
+    await tester.tap(find.byKey(const Key('top_up_summary_confirm')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('top_up_method_bank_transfer')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('usdt_terminal_title')), findsOneWidget);
+    expect(find.byKey(const Key('usdt_terminal_qr_card')), findsOneWidget);
+  });
+
+  testWidgets('opens sbp qr terminal when selecting sbp method', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1170, 2652);
+    tester.view.devicePixelRatio = 3.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const GlobalBridgeApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    await tester.tap(find.text('Get Started'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Continue'));
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.byKey(const Key('onboarding3_get_started')),
+    );
+    await tester.tap(find.byKey(const Key('onboarding3_get_started')));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.byKey(const Key('go_to_create_account')));
+    await tester.tap(find.byKey(const Key('go_to_create_account')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('read_terms')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('terms_accept')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('create_email')),
+      'marcus@globalbridge.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_password')),
+      'SecurePass1',
+    );
+    await tester.enterText(
+      find.byKey(const Key('create_referral_code')),
+      'INVITE2026',
+    );
+    await tester.tap(find.byKey(const Key('create_account_submit')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('kyc_id_type_school')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('school_id_upload_gallery')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('face_verification_complete')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('verification_review_notify')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('identity_verified_proceed')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('dashboard_top_up_action')));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const Key('top_up_summary_confirm')));
+    await tester.tap(find.byKey(const Key('top_up_summary_confirm')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('top_up_method_sbp')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('sbp_terminal_title')), findsOneWidget);
+    expect(find.byKey(const Key('sbp_terminal_qr_card')), findsOneWidget);
+    expect(find.byKey(const Key('sbp_terminal_validity')), findsOneWidget);
+  });
 }

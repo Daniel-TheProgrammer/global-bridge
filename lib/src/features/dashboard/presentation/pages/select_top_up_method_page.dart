@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/sbp_qr_top_up_terminal_page.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/usdt_top_up_terminal_page.dart';
 
 class SelectTopUpMethodPage extends StatelessWidget {
@@ -7,6 +8,12 @@ class SelectTopUpMethodPage extends StatelessWidget {
   void _openUsdtTerminal(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(builder: (_) => const UsdtTopUpTerminalPage()),
+    );
+  }
+
+  void _openSbpTerminal(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const SbpQrTopUpTerminalPage()),
     );
   }
 
@@ -108,11 +115,12 @@ class SelectTopUpMethodPage extends StatelessWidget {
                       subtitle: 'MIR / Visa / Mastercard',
                     ),
                     const SizedBox(height: 12),
-                    const _PaymentMethodTile(
+                    _PaymentMethodTile(
                       tileKey: Key('top_up_method_sbp'),
                       icon: Icons.account_balance_wallet_outlined,
                       title: 'SBP Quick Payment',
                       subtitle: 'Instant via app transfer',
+                      onTap: () => _openSbpTerminal(context),
                     ),
                     const SizedBox(height: 12),
                     _PaymentMethodTile(
@@ -124,11 +132,12 @@ class SelectTopUpMethodPage extends StatelessWidget {
                       onTap: () => _openUsdtTerminal(context),
                     ),
                     const SizedBox(height: 12),
-                    const _PaymentMethodTile(
+                    _PaymentMethodTile(
                       tileKey: Key('top_up_method_bank_transfer'),
                       icon: Icons.account_balance_outlined,
                       title: 'Local Bank Transfer',
                       subtitle: 'Tinkoff / T-Bank',
+                      onTap: () => _openUsdtTerminal(context),
                     ),
                     const Spacer(),
                     const Center(
