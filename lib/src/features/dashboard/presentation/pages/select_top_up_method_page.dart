@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/sbp_qr_top_up_terminal_page.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/usdt_top_up_terminal_page.dart';
@@ -6,14 +8,18 @@ class SelectTopUpMethodPage extends StatelessWidget {
   const SelectTopUpMethodPage({super.key});
 
   void _openUsdtTerminal(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => const UsdtTopUpTerminalPage()),
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => const UsdtTopUpTerminalPage()),
+      ),
     );
   }
 
   void _openSbpTerminal(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => const SbpQrTopUpTerminalPage()),
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => const SbpQrTopUpTerminalPage()),
+      ),
     );
   }
 
@@ -116,7 +122,7 @@ class SelectTopUpMethodPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     _PaymentMethodTile(
-                      tileKey: Key('top_up_method_sbp'),
+                      tileKey: const Key('top_up_method_sbp'),
                       icon: Icons.account_balance_wallet_outlined,
                       title: 'SBP Quick Payment',
                       subtitle: 'Instant via app transfer',
@@ -124,7 +130,7 @@ class SelectTopUpMethodPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     _PaymentMethodTile(
-                      tileKey: Key('top_up_method_usdt'),
+                      tileKey: const Key('top_up_method_usdt'),
                       icon: Icons.currency_bitcoin,
                       title: 'USDT (TRC20)',
                       subtitle: 'Crypto Settlement',
@@ -133,7 +139,7 @@ class SelectTopUpMethodPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     _PaymentMethodTile(
-                      tileKey: Key('top_up_method_bank_transfer'),
+                      tileKey: const Key('top_up_method_bank_transfer'),
                       icon: Icons.account_balance_outlined,
                       title: 'Local Bank Transfer',
                       subtitle: 'Tinkoff / T-Bank',

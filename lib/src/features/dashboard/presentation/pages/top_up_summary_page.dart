@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/select_top_up_method_page.dart';
 
@@ -5,8 +7,10 @@ class TopUpSummaryPage extends StatelessWidget {
   const TopUpSummaryPage({super.key});
 
   void _goToSelectMethod(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => const SelectTopUpMethodPage()),
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => const SelectTopUpMethodPage()),
+      ),
     );
   }
 
@@ -237,9 +241,9 @@ class TopUpSummaryPage extends StatelessWidget {
                                 SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    'Funds will be instantly added to your active '
-                                    'GlobalBridge card (**** 8829) once the payment '
-                                    'is confirmed.',
+                                    'Funds will be instantly added to your '
+                                    'active GlobalBridge card (**** 8829) once '
+                                    'the payment is confirmed.',
                                     style: TextStyle(
                                       color: Color(0x99E7ECF3),
                                       fontSize: 16 * 0.72,

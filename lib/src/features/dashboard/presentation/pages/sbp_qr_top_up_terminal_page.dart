@@ -125,7 +125,7 @@ class SbpQrTopUpTerminalPage extends StatelessWidget {
                             color: const Color(0xFFEFEFF1),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: Container(
+                          child: ColoredBox(
                             color: const Color(0xFF2D7C77),
                             child: Center(
                               child: Container(

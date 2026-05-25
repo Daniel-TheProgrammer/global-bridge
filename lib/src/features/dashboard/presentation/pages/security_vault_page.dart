@@ -337,18 +337,24 @@ class _MastercardLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       width: 56,
       height: 30,
       child: Stack(
-        children: const [
+        children: <Widget>[
           Positioned(
             left: 8,
-            child: CircleAvatar(radius: 15, backgroundColor: Color(0xFFD34B65)),
+            child: CircleAvatar(
+              radius: 15,
+              backgroundColor: Color(0xFFD34B65),
+            ),
           ),
           Positioned(
             left: 26,
-            child: CircleAvatar(radius: 15, backgroundColor: Color(0xFFD0B143)),
+            child: CircleAvatar(
+              radius: 15,
+              backgroundColor: Color(0xFFD0B143),
+            ),
           ),
         ],
       ),

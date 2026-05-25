@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/security_vault_page.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/top_up_summary_page.dart';
@@ -6,14 +8,18 @@ class DashboardHomePage extends StatelessWidget {
   const DashboardHomePage({super.key});
 
   void _openSecurityVault(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => const SecurityVaultPage()),
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => const SecurityVaultPage()),
+      ),
     );
   }
 
   void _openTopUpSummary(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => const TopUpSummaryPage()),
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => const TopUpSummaryPage()),
+      ),
     );
   }
 

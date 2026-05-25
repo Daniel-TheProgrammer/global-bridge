@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,7 +19,7 @@ class _UsdtTopUpTerminalPageState extends State<UsdtTopUpTerminalPage> {
       _isAddressVisible ? _unmaskedAddress : _maskedAddress;
 
   void _copyAddress(BuildContext context) {
-    Clipboard.setData(const ClipboardData(text: _unmaskedAddress));
+    unawaited(Clipboard.setData(const ClipboardData(text: _unmaskedAddress)));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Wallet address copied.')),
     );
