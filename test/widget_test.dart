@@ -505,6 +505,20 @@ void main() {
     await tester.tap(find.byKey(const Key('usdt_terminal_copy_address')));
     await tester.pump();
     expect(find.text('Wallet address copied.'), findsOneWidget);
+
+    await tester.ensureVisible(find.byKey(const Key('usdt_terminal_confirm')));
+    await tester.tap(find.byKey(const Key('usdt_terminal_confirm')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+    expect(find.byKey(const Key('processing_title')), findsOneWidget);
+    expect(find.byKey(const Key('processing_status_panel')), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1400));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('transaction_success_title')), findsOneWidget);
+    expect(
+      find.byKey(const Key('transaction_success_back_to_vault')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('opens usdt terminal when selecting local bank transfer', (
@@ -644,5 +658,18 @@ void main() {
     expect(find.byKey(const Key('sbp_terminal_title')), findsOneWidget);
     expect(find.byKey(const Key('sbp_terminal_qr_card')), findsOneWidget);
     expect(find.byKey(const Key('sbp_terminal_validity')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('sbp_terminal_payment_sent')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+    expect(find.byKey(const Key('processing_title')), findsOneWidget);
+    expect(find.byKey(const Key('processing_status_panel')), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1400));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('transaction_success_title')), findsOneWidget);
+    expect(
+      find.byKey(const Key('transaction_success_back_to_vault')),
+      findsOneWidget,
+    );
   });
 }

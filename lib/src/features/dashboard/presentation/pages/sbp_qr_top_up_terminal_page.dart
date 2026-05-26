@@ -1,7 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/transaction_processing_page.dart';
 
 class SbpQrTopUpTerminalPage extends StatelessWidget {
   const SbpQrTopUpTerminalPage({super.key});
+
+  void _goToProcessingScreen(BuildContext context) {
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => const TransactionProcessingPage(),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -271,15 +284,7 @@ class SbpQrTopUpTerminalPage extends StatelessWidget {
                     const SizedBox(height: 10),
                     InkWell(
                       key: const Key('sbp_terminal_payment_sent'),
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Payment status sent for validation.',
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: () => _goToProcessingScreen(context),
                       borderRadius: BorderRadius.circular(18),
                       child: Container(
                         height: 58,

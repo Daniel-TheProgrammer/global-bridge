@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/transaction_processing_page.dart';
 
 class UsdtTopUpTerminalPage extends StatefulWidget {
   const UsdtTopUpTerminalPage({super.key});
@@ -27,6 +28,16 @@ class _UsdtTopUpTerminalPageState extends State<UsdtTopUpTerminalPage> {
 
   void _toggleAddressVisibility() {
     setState(() => _isAddressVisible = !_isAddressVisible);
+  }
+
+  void _goToProcessingScreen(BuildContext context) {
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => const TransactionProcessingPage(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -304,15 +315,7 @@ class _UsdtTopUpTerminalPageState extends State<UsdtTopUpTerminalPage> {
                     const SizedBox(height: 16),
                     InkWell(
                       key: const Key('usdt_terminal_confirm'),
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'USDT top-up confirmation submitted.',
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: () => _goToProcessingScreen(context),
                       borderRadius: BorderRadius.circular(16),
                       child: Container(
                         height: 64,
