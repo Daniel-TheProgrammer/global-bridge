@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:globalbridge/src/features/dashboard/presentation/pages/transaction_declined_page.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/transaction_success_page.dart';
 
 class TransactionProcessingPage extends StatefulWidget {
   const TransactionProcessingPage({super.key});
@@ -25,7 +25,7 @@ class _TransactionProcessingPageState extends State<TransactionProcessingPage> {
     }
     await Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
-        builder: (_) => const TransactionDeclinedPage(),
+        builder: (_) => const TransactionSuccessPage(),
       ),
     );
   }

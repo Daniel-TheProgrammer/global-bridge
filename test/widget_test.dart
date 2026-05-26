@@ -514,8 +514,11 @@ void main() {
     expect(find.byKey(const Key('processing_status_panel')), findsOneWidget);
     await tester.pump(const Duration(milliseconds: 1400));
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('transaction_declined_title')), findsOneWidget);
-    expect(find.byKey(const Key('transaction_declined_retry')), findsOneWidget);
+    expect(find.byKey(const Key('transaction_success_title')), findsOneWidget);
+    expect(
+      find.byKey(const Key('transaction_success_back_to_vault')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('opens usdt terminal when selecting local bank transfer', (
@@ -663,9 +666,9 @@ void main() {
     expect(find.byKey(const Key('processing_status_panel')), findsOneWidget);
     await tester.pump(const Duration(milliseconds: 1400));
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('transaction_declined_title')), findsOneWidget);
+    expect(find.byKey(const Key('transaction_success_title')), findsOneWidget);
     expect(
-      find.byKey(const Key('transaction_declined_support')),
+      find.byKey(const Key('transaction_success_back_to_vault')),
       findsOneWidget,
     );
   });
