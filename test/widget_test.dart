@@ -508,9 +508,14 @@ void main() {
 
     await tester.ensureVisible(find.byKey(const Key('usdt_terminal_confirm')));
     await tester.tap(find.byKey(const Key('usdt_terminal_confirm')));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
     expect(find.byKey(const Key('processing_title')), findsOneWidget);
     expect(find.byKey(const Key('processing_status_panel')), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1400));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('transaction_declined_title')), findsOneWidget);
+    expect(find.byKey(const Key('transaction_declined_retry')), findsOneWidget);
   });
 
   testWidgets('opens usdt terminal when selecting local bank transfer', (
@@ -652,8 +657,16 @@ void main() {
     expect(find.byKey(const Key('sbp_terminal_validity')), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('sbp_terminal_payment_sent')));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
     expect(find.byKey(const Key('processing_title')), findsOneWidget);
     expect(find.byKey(const Key('processing_status_panel')), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1400));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('transaction_declined_title')), findsOneWidget);
+    expect(
+      find.byKey(const Key('transaction_declined_support')),
+      findsOneWidget,
+    );
   });
 }

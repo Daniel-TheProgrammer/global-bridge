@@ -1,7 +1,34 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class TransactionProcessingPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/transaction_declined_page.dart';
+
+class TransactionProcessingPage extends StatefulWidget {
   const TransactionProcessingPage({super.key});
+
+  @override
+  State<TransactionProcessingPage> createState() =>
+      _TransactionProcessingPageState();
+}
+
+class _TransactionProcessingPageState extends State<TransactionProcessingPage> {
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_scheduleDeclinedTransition());
+  }
+
+  Future<void> _scheduleDeclinedTransition() async {
+    await Future<void>.delayed(const Duration(milliseconds: 1300));
+    if (!mounted) {
+      return;
+    }
+    await Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (_) => const TransactionDeclinedPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
