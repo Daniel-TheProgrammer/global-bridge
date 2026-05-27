@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/notifications_page.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/security_vault_page.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/top_up_summary_page.dart';
 
@@ -19,6 +20,14 @@ class DashboardHomePage extends StatelessWidget {
     unawaited(
       Navigator.of(context).push(
         MaterialPageRoute<void>(builder: (_) => const TopUpSummaryPage()),
+      ),
+    );
+  }
+
+  void _openNotifications(BuildContext context) {
+    unawaited(
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => const NotificationsPage()),
       ),
     );
   }
@@ -79,20 +88,25 @@ class DashboardHomePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: const Color(0x221A7182),
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: const Color(0x338FA3BA),
+                              InkWell(
+                                key: const Key('dashboard_open_notifications'),
+                                onTap: () => _openNotifications(context),
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0x221A7182),
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: const Color(0x338FA3BA),
+                                    ),
                                   ),
-                                ),
-                                child: const Icon(
-                                  Icons.account_circle_outlined,
-                                  color: Color(0xFFAAB8CA),
-                                  size: 24,
+                                  child: const Icon(
+                                    Icons.notifications_outlined,
+                                    color: Color(0xFFAAB8CA),
+                                    size: 24,
+                                  ),
                                 ),
                               ),
                             ],
