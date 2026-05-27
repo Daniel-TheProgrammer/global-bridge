@@ -1,21 +1,33 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/features/dashboard/domain/entities/top_up_receipt.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/security_vault_page.dart';
 
 class TransactionSuccessPage extends StatelessWidget {
-  const TransactionSuccessPage({super.key});
+  const TransactionSuccessPage({
+    required this.receipt,
+    super.key,
+  });
 
-  void _goToVault(BuildContext context) {
-    unawaited(
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(builder: (_) => const SecurityVaultPage()),
-      ),
+  final TopUpReceipt receipt;
+
+  Future<void> _goToVault(BuildContext context) async {
+    await Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(builder: (_) => const SecurityVaultPage()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final requestedAt =
+        '${_monthAbbreviation(receipt.serverTime.month)} '
+        '${receipt.serverTime.day}, ${receipt.serverTime.year}';
+    final totalAddedRubText =
+        '+${receipt.totalAddedRub.toStringAsFixed(2)} RUB';
+    final totalUsdText = '\$${receipt.amountUsd.toStringAsFixed(2)}';
+    final serviceFeeText = '\$${receipt.serviceFeeUsd.toStringAsFixed(2)}';
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -34,9 +46,10 @@ class TransactionSuccessPage extends StatelessWidget {
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 390),
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
                       children: [
@@ -65,7 +78,7 @@ class TransactionSuccessPage extends StatelessWidget {
                         const SizedBox(width: 40),
                       ],
                     ),
-                    const Spacer(flex: 2),
+                    const SizedBox(height: 26),
                     Container(
                       width: 96,
                       height: 96,
@@ -111,9 +124,9 @@ class TransactionSuccessPage extends StatelessWidget {
                         color: const Color(0x2216D46C),
                         borderRadius: BorderRadius.circular(999),
                       ),
-                      child: const Text(
-                        '+1,425.00 RUB',
-                        style: TextStyle(
+                      child: Text(
+                        totalAddedRubText,
+                        style: const TextStyle(
                           color: Color(0xFF16D46C),
                           fontSize: 44 * 0.62,
                           fontWeight: FontWeight.w700,
@@ -129,24 +142,24 @@ class TransactionSuccessPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: const Color(0x2B8FA3BA)),
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Funds have been added to your\n'
-                            'GlobalBridge card (**** 8829).',
-                            style: TextStyle(
+                            '${receipt.destination}.',
+                            style: const TextStyle(
                               color: Color(0xFFA9B9CD),
                               fontSize: 30 * 0.58,
                               height: 1.5,
                             ),
                           ),
-                          SizedBox(height: 14),
-                          Divider(color: Color(0x223193A8), height: 8),
-                          SizedBox(height: 14),
+                          const SizedBox(height: 14),
+                          const Divider(color: Color(0x223193A8), height: 8),
+                          const SizedBox(height: 14),
                           Row(
                             children: [
-                              Expanded(
+                              const Expanded(
                                 child: Text(
                                   'New balance',
                                   overflow: TextOverflow.ellipsis,
@@ -157,13 +170,13 @@ class TransactionSuccessPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               Flexible(
                                 child: Text(
-                                  r'$15.00 USD',
+                                  '$totalUsdText USD',
                                   textAlign: TextAlign.right,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFFE7ECF3),
                                     fontSize: 34 * 0.62,
                                     fontWeight: FontWeight.w700,
@@ -172,22 +185,49 @@ class TransactionSuccessPage extends StatelessWidget {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 14),
+                          const Divider(color: Color(0x223193A8), height: 8),
+                          const SizedBox(height: 14),
+                          _SummaryRow(
+                            label: 'Transaction ID',
+                            value: receipt.transactionId,
+                          ),
+                          const SizedBox(height: 10),
+                          _SummaryRow(label: 'Method', value: receipt.method),
+                          const SizedBox(height: 10),
+                          _SummaryRow(
+                            label: 'Service Fee',
+                            value: serviceFeeText,
+                          ),
+                          const SizedBox(height: 10),
+                          _SummaryRow(
+                            label: 'Exchange Rate',
+                            value: receipt.exchangeRate,
+                          ),
+                          const SizedBox(height: 10),
+                          _SummaryRow(
+                            label: 'Current Status',
+                            value: receipt.status,
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'Transaction ID: #GB-8829-u92',
-                      style: TextStyle(
+                    Text(
+                      'Transaction completed on $requestedAt',
+                      key: const Key('transaction_success_server_time'),
+                      style: const TextStyle(
                         color: Color(0xFF9DB0C7),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const Spacer(flex: 3),
+                    const SizedBox(height: 24),
                     InkWell(
                       key: const Key('transaction_success_back_to_vault'),
-                      onTap: () => _goToVault(context),
+                      onTap: () {
+                        unawaited(_goToVault(context));
+                      },
                       borderRadius: BorderRadius.circular(18),
                       child: Container(
                         height: 66,
@@ -242,6 +282,64 @@ class TransactionSuccessPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  String _monthAbbreviation(int month) {
+    const months = <String>[
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return months[month - 1];
+  }
+}
+
+class _SummaryRow extends StatelessWidget {
+  const _SummaryRow({
+    required this.label,
+    required this.value,
+  });
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            label,
+            style: const TextStyle(
+              color: Color(0xFF6F88A7),
+              fontSize: 28 * 0.58,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.right,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Color(0xFFE7ECF3),
+              fontSize: 30 * 0.58,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
