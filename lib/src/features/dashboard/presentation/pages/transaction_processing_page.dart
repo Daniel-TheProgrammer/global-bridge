@@ -1,10 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:globalbridge/src/core/di/injection_container.dart';
+import 'package:globalbridge/src/core/usecase/usecase.dart';
+import 'package:globalbridge/src/features/dashboard/domain/entities/top_up_receipt.dart';
+import 'package:globalbridge/src/features/dashboard/domain/usecases/get_top_up_receipt.dart';
+import 'package:globalbridge/src/features/dashboard/presentation/pages/transaction_declined_page.dart';
 import 'package:globalbridge/src/features/dashboard/presentation/pages/transaction_success_page.dart';
 
 class TransactionProcessingPage extends StatefulWidget {
-  const TransactionProcessingPage({super.key});
+  const TransactionProcessingPage({
+    this.getTopUpReceipt,
+    super.key,
+  });
+
+  final GetTopUpReceipt? getTopUpReceipt;
 
   @override
   State<TransactionProcessingPage> createState() =>
@@ -15,17 +25,46 @@ class _TransactionProcessingPageState extends State<TransactionProcessingPage> {
   @override
   void initState() {
     super.initState();
-    unawaited(_scheduleDeclinedTransition());
+    unawaited(_runProcessingFlow());
   }
 
-  Future<void> _scheduleDeclinedTransition() async {
-    await Future<void>.delayed(const Duration(milliseconds: 1300));
+  Future<void> _runProcessingFlow() async {
+    final getTopUpReceipt = widget.getTopUpReceipt ?? getIt<GetTopUpReceipt>();
+    try {
+      final receiptFuture = getTopUpReceipt(const NoParams());
+      await Future.wait<void>([
+        Future<void>(() async {
+          await receiptFuture;
+        }),
+        Future<void>.delayed(
+          const Duration(milliseconds: 1300),
+        ),
+      ]);
+      final receipt = await receiptFuture;
+      await _openSuccess(receipt);
+    } on Exception {
+      await _openDeclined();
+    }
+  }
+
+  Future<void> _openSuccess(TopUpReceipt receipt) async {
     if (!mounted) {
       return;
     }
     await Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
-        builder: (_) => const TransactionSuccessPage(),
+        builder: (_) => TransactionSuccessPage(receipt: receipt),
+      ),
+    );
+  }
+
+  Future<void> _openDeclined() async {
+    if (!mounted) {
+      return;
+    }
+    await Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (_) => const TransactionDeclinedPage(),
       ),
     );
   }

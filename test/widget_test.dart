@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:globalbridge/src/app/app.dart';
 import 'package:globalbridge/src/core/di/injection_container.dart';
